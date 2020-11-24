@@ -18,7 +18,7 @@ class HGModel(BaseModel):
         model= torch.nn.parallel.DataParallel(model, device_ids = [0,1])
         model_parameters = self.load_network(model, 'G', 'best_generalization')
         model.load_state_dict(model_parameters)
-        self.netG = model.cuda()
+        self.netG = model.cpu()
 
 
     def batch_classify(self, z_A_arr, z_B_arr, ground_truth ):
