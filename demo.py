@@ -14,8 +14,8 @@ img_path = 'demo.jpg'
 
 model = create_model(opt)
 
-input_height = 384
-input_width  = 512
+input_height = 384  ##changed from 384 to 580
+input_width  = 512  ##changed
 
 
 def test_simple(model):
@@ -41,7 +41,8 @@ def test_simple(model):
     pred_inv_depth = pred_inv_depth.data.cpu().numpy()
     # you might also use percentile for better visualization
     pred_inv_depth = pred_inv_depth/np.amax(pred_inv_depth)
-
+    print(pred_inv_depth)
+    print("pred_inv_depth is of type: {}, length: {}, width: {}".format(type(pred_inv_depth),len(pred_inv_depth), len(pred_inv_depth[0])))
     io.imsave('demo.png', pred_inv_depth)
     # print(pred_inv_depth.shape)
     sys.exit()
