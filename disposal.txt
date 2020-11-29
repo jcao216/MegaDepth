@@ -1,0 +1,161 @@
+"""
+class ConvolAutoEncoder(Model):
+    def __init__(self,latent_dim):
+        super(Autoencoder,self).__init__()
+        self.encoder = tf.keras.Sequential([
+            layers.Input(shape=(384,384,1)),
+            layers.Conv2D(16,(3,3), activation='relu', padding='same'),
+            layers.MaxPooling2D((2,2),padding='same'),
+            layers.Conv2D(8,(3,3), activation='relu', padding='same'),
+            layers.MaxPooling2D((2,2),padding='same'), 
+            layers.Conv2D(8,(3,3), activation='relu', padding='same'),
+            layers.MaxPooling2D((2,2),padding='same')])
+            ##reached inner most layer of AE (latent layer/bottleneck)/end of encoder
+
+        self.decoder = tf.keras.Sequential([
+            layers.Conv2D(8,(3,3), activation='relu', padding='same'),
+            layers.UpSampling2D((2,2)),
+
+            layers.add([layer8,layer5]),
+
+            layers.Conv2D(8,(3,3), activation='relu', padding='same'),
+            layers.UpSampling2D((2,2)),
+
+            layers.add([layer10, layer3]),
+
+            layers.Conv2D(16,(3,3), activation='relu', padding='same'),
+            layers.UpSampling2D((2,2),padding='same'),
+
+            layers.Conv2D(1,(3,3),activation='sigmoid', padding='same'),
+            #Model(inputs=(img), outputs=(fin_decoded_img))
+        ])
+         self.encoder_decoder = tf.keras.Sequential([
+            layers.Input(shape=(384,384,1)),
+            layers.Conv2D(16,(3,3), activation='relu', padding='same'),
+            layers.MaxPooling2D((2,2),padding='same'),
+            layers.Conv2D(8,(3,3), activation='relu', padding='same'),
+            layers.MaxPooling2D((2,2),padding='same'), 
+            layers.Conv2D(8,(3,3), activation='relu', padding='same'),
+            layers.MaxPooling2D((2,2),padding='same')]),
+            layers.Conv2D(8,(3,3), activation='relu', padding='same'),
+            layers.UpSampling2D((2,2)),
+
+            layers.add([layer8,layer5]),
+
+            layers.Conv2D(8,(3,3), activation='relu', padding='same'),
+            layers.UpSampling2D((2,2)),
+
+            layers.add([layer10, layer3]),
+
+            layers.Conv2D(16,(3,3), activation='relu', padding='same'),
+            layers.UpSampling2D((2,2),padding='same'),
+
+            layers.Conv2D(1,(3,3),activation='sigmoid', padding='same')])
+            #autoencoder = Model(inputs=(img), outputs=(fin_decoded_img))
+            
+        self.convTwoDimTwo = torch.nn.Conv2d()
+
+        self.convTr2d = setup_decoder()
+        self.convTr2d2 = torch.nn.ConvTranspose2d()
+
+    def call(self,x):
+        encoded = self.encoder(x)
+        decoded = self.decoder(encoded)
+        return decoded
+
+def autoencode(img, orig_filename):
+    ## from vanilla autoencoder
+    encoder_dim = 512
+    img = Input(shape=(384,512,1))
+    encoded_img = Dense(encoder_dim, activation='relu')(img)
+    decoded_img = Dense(384*512, activation='sigmoid')(encoded_img)
+    autoencoder = Model(img, decoded_img)
+
+    encoder = Model(img,encoded_img)
+    encoded_in = Input(shape=(encoder_dim,))
+
+    decoded_layer = autoencoder.layers[-1]
+
+    decoder = Model(encoded_in, decoder_layer(encoded_in))
+
+    autoencoder.compile(optimizer='adam', loss = 'binary_crossentropy')
+    ##-------
+    img = Input(shape=(384,512,1))
+    encoded_img = layers.Conv2D(16,(3,3), activation='relu', padding='same')(img)
+    encoded_img = layers.MaxPooling2D((2,2),padding='same')(encoded_img)
+    encoded_img = layers.Conv2D(8,(3,3), activation='relu', padding='same')(encoded_img)
+    encoded_img = layers.MaxPooling2D((2,2),padding='same')(encoded_img)  
+    encoded_img = layers.Conv2D(8,(3,3), activation='relu', padding='same')(encoded_img)
+    fin_encoded_img = layers.MaxPooling2D((2,2),padding='same')(encoded_img)
+
+    encoded_img = layers.Conv2D(8,(3,3), activation='relu', padding='same')(fin_encoded_img)
+    encoded_img = layers.UpSampling2D((2,2))(encoded_img)
+    encoded_img = layers.Conv2D(8,(3,3), activation='relu', padding='same')(encoded_img)
+    encoded_img = layers.UpSampling2D((2,2))(encoded_img)
+    encoded_img = layers.Conv2D(16,(3,3), activation='relu', padding='same')(encoded_img)
+    encoded_img = layers.UpSampling2D((2,2),padding='same')(encoded_img)
+
+    fin_decoded_img = layers.Conv2D(1,(3,3),activation='sigmoid', padding='same')(encoded_img)
+    autoencoder = Model(img, fin_decoded_img)
+
+    #encoder = Model(img,encoded_img)
+    #encoded_in = Input(shape=(encoder_dim,))
+
+    #decoded_layer = autoencoder.layers[-1]
+    #decoder = Model(encoded_in, decoder_layer(encoded_in))
+
+    autoencoder.compile(optimizer='adam', loss = 'binary_crossentropy') 
+
+    return fin_encoded_img,fin_decoded_img
+
+
+def autoencode_simple():
+    encoder_dim = 512
+    img = Input(shape=(384*512,))
+    encoded_img = Dense(encoder_dim, activation='relu')(img)
+    decoded_img = Dense(384*512, activation='sigmoid')(encoded_img)
+    autoencoder = Model(img, decoded_img)
+    encdr = Model(img,encoded_img)
+    encdr_input = Input(shape=(encoder_dim,))
+    decoder_layer = autoencoder.layers[-1]
+    decoder = Model(encdr_input, decoder_layer(encdr_input))
+
+    # load mnist data
+
+
+
+
+
+def autoencode(img):
+    code_size = 512
+    encdr = Sequential()
+    encdr.add(InputLayer(img))
+    encdr.add(Flatten())
+    encdr.add(Dense(code_size))
+
+    decdr = Sequential()
+    decdr.add(InputLayer((code_size,)))
+    decdr.add(Dense(np.prod(img)))
+
+    decdr.add(Reshape(img))
+
+    return encdr,decdr
+"""
+
+
+
+
+# tf.keras.Model.fit(tensor_dataset_train, 
+#    tensor_dataset_validate,
+#    validation_steps=tensor_dataset_validate.n/batch_size,
+#    epochs=epochs,
+#    verbose=True)
+
+""" 
+input_shape = Input(raw_arr_shape)
+code = encoder(input_shape)
+reconstr = decoder(code)
+
+autoencoder = Model(code,reconstr)
+autoencoder.compile(optimizer='adam', loss = 'mse')
+print(autoencoder.summary()) """
